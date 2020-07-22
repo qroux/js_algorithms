@@ -8,37 +8,63 @@
 // Example:
 //   fib(4) === 3
 
-const memo = {};
+function memoize(fn) {
+  const cache = {};
 
-function fib(n) {
-  // ITERATIVE
+  return function (...args) {
+    if (cache[args]) {
+      return cache[args];
+    }
 
-  // let arr = [];
-  // for (let i = 0; i <= n; i++) {
-  //   if (i === 0) arr.push(0);
-  //   if (i === 1) arr.push(1);
-  //   if (i > 1) arr.push(arr[i - 2] + arr[i - 1]);
-  // }
+    const result = fn.apply(this, args);
+    cache[args] = result;
 
-  // return arr[arr.length - 1];
+    return result;
+  };
+}
 
-  // RECURSIVE
-  // if (n < 2) return n;
-  // if (n >= 2) {
-  //   return fib(n - 2) + fib(n - 1);
-  // }
-
-  // MMOIZED version
+function slowFib(n) {
   if (n < 2) return n;
   if (n >= 2) {
-    if (memo[n]) {
-      return memo[n];
-    } else if (memo[n - 2] && memo[n - 1]) {
-      return (memo[n] = memo[n - 2] + memo[n - 1]);
-    } else {
-      return (memo[n] = fib(n - 2) + fib(n - 1));
-    }
+    return fib(n - 2) + fib(n - 1);
   }
 }
+
+const fib = memoize(slowFib);
+
+// const memo = {};
+
+// function fib(n) {
+//   // ITERATIVE
+
+//   // let arr = [];
+//   // for (let i = 0; i <= n; i++) {
+//   //   if (i === 0) arr.push(0);
+//   //   if (i === 1) arr.push(1);
+//   //   if (i > 1) arr.push(arr[i - 2] + arr[i - 1]);
+//   // }
+
+//   // return arr[arr.length - 1];
+
+//   // RECURSIVE
+//   // if (n < 2) return n;
+//   // if (n >= 2) {
+//   //   return fib(n - 2) + fib(n - 1);
+//   // }
+
+//   // GLOBAL VARIABLE MMOIZED version
+//   // if (n < 2) return n;
+//   // if (n >= 2) {
+//   //   if (memo[n]) {
+//   //     return memo[n];
+//   //   } else if (memo[n - 2] && memo[n - 1]) {
+//   //     return (memo[n] = memo[n - 2] + memo[n - 1]);
+//   //   } else {
+//   //     return (memo[n] = fib(n - 2) + fib(n - 1));
+//   //   }
+//   // }
+
+//   // REAL MEMOIZED
+// }
 
 module.exports = fib;
