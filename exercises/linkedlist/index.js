@@ -125,6 +125,15 @@ class LinkedList {
 
     newNode.next = original
   }
+
+  forEach(list) {
+    let node = this.head
+
+    while (node) {
+      node.data += 10
+      node = node.next
+    }
+  }
 }
 
 module.exports = { Node, LinkedList };
