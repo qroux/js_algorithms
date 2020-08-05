@@ -126,12 +126,21 @@ class LinkedList {
     newNode.next = original
   }
 
-  forEach(list) {
+  forEach(fn) {
     let node = this.head
 
     while (node) {
-      node.data += 10
-      node = node.next
+      fn(node);
+      node = node.next;
+    }
+  }
+
+  *[Symbol.iterator](fn) {
+    let node = this.head
+
+    while (node) {
+      yield node;
+      node = node.next;
     }
   }
 }
